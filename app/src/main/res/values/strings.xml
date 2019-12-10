@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TesteWebService</string>
+    <string name="Selecione_Servico">Selecione o tipo de Serviço</string>
+    <string-array name="tipos_de_servico">
+        <item>SEDEX Varejo</item>
+        <item>SEDEX a Cobrar Varejo</item>
+        <item>SEDEX 10 Varejo</item>
+        <item>SEDEX Hoje Varejo</item>
+        <item>PAC Varejo</item>
+    </string-array>
+</resources>
+
