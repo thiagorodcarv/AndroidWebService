@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView prazoEntrega;
     private Spinner spinnerServico;
     private String tipoDeServico;
+    String switer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
         precoFrete = findViewById(R.id.precoFrete);
         prazoEntrega = findViewById(R.id.prazoEntrega);
         spinnerServico = findViewById(R.id.spinner);
+
         spinnerServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String switer = parent.getItemAtPosition(position).toString();
+                switer = parent.getItemAtPosition(position).toString();
+                switch (position){
+                    case 0:
+                }
                 if (switer.equals("SEDEX Varejo")) {
                     tipoDeServico = "40010";
                 }
@@ -49,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
                     tipoDeServico = "40045";
                 }
 
-                else if (switer.equals("SEDEX a Cobrar Varejo")){
+                else if (switer.equals("SEDEX 10 Varejo")){
                     tipoDeServico = "40215";
                 }
 
-                else if (switer.equals("SEDEX a Cobrar Varejo")){
+                else if (switer.equals("SEDEX Hoje Varejo")){
                     tipoDeServico = "40290";
                 }
-                else if (switer.equals("SEDEX a Cobrar Varejo")) {
+                else if (switer.equals("PAC Varejo")) {
                     tipoDeServico = "41106 ";
                 }
 
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calcularFrete(View view){
-        Toast.makeText(this, tipoDeServico, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, switer+" nº correspondente: "+tipoDeServico, Toast.LENGTH_SHORT).show();
         String cep = cepDestino.getText().toString();
         String peso = pesoMercadoria.getText().toString();
         String comprimento = comprimentoMercadoria.getText().toString();

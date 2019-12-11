@@ -36,7 +36,7 @@ public class HTTPService extends AsyncTask<Void, Void, String> {
         boolean erro = false;
         boolean erroType = false;
         try {
-            URL url = new URL("http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=08082650&sDsSenha=564321&sCe" +
+            URL url = new URL("http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=&sDsSenha=&sCe" +
                     "pOrigem="+cepOrigem+"&sCepDestino="+ cepDestino +"&nVlPeso="+nVlPeso+"&nCdFormato=1&nVlComprimento="+nVlComprimento+"&nVlAltura="+nVlAltura +
                     "&nVlLargura="+nVlLargura+"&sCdMaoPropria=n&nVlValorDeclarado=0&sCdAvisoRecebimento=n&nCdServico="+nCdServico+"&" +
                     "nVlDiametro="+nVlDiametro+"&StrRetorno=xml&nIndicaCalculo=3");
