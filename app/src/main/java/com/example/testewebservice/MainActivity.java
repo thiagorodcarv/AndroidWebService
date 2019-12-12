@@ -86,16 +86,15 @@ public class MainActivity extends AppCompatActivity {
         if (cep.length()>0&&!cep.equals("")&&cep.length()==8){
             HTTPService service = new HTTPService(cep,peso,comprimento,altura,largura,diametro,tipoDeServico);
             precoFrete.setVisibility(View.VISIBLE);
-            prazoEntrega.setVisibility(View.VISIBLE);
             try {
                 String resposta = service.execute().get();
                 if (resposta.contains("NO_ERROR")){
+                    prazoEntrega.setVisibility(View.VISIBLE);
                     precoFrete.setText(resposta.split("NO_ERROR")[0]+" reais");
                     prazoEntrega.setText(resposta.split("NO_ERROR")[1]+" dias");
                 }
                 else {
-                    precoFrete.setText("Processo retornou erro do tipo:");
-                    prazoEntrega.setText(resposta);
+                    precoFrete.setText("Processo retornou erro do tipo:" +resposta);
                 }
             } catch (ExecutionException e) {
                 e.printStackTrace();

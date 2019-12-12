@@ -2,7 +2,11 @@ package com.example.testewebservice;
 
 import android.os.AsyncTask;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,7 +38,6 @@ public class HTTPService extends AsyncTask<Void, Void, String> {
         String resposta = "", preco = "", prazo = "", line;
         String erroMSG = "";
         boolean erro = false;
-        boolean erroType = false;
         try {
             URL url = new URL("http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=&sDsSenha=&sCe" +
                     "pOrigem="+cepOrigem+"&sCepDestino="+ cepDestino +"&nVlPeso="+nVlPeso+"&nCdFormato=1&nVlComprimento="+nVlComprimento+"&nVlAltura="+nVlAltura +
@@ -43,11 +46,13 @@ public class HTTPService extends AsyncTask<Void, Void, String> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept","application/xml");
+            connection.setRequestProperty("charset","utf-8");
             connection.connect();
+            InputStream stream = connection.getInputStream();
+            InputStreamReader isReader = new InputStreamReader(stream);
 
-            Scanner scanner = new Scanner(url.openStream());
-            while (scanner.hasNext()){
-                line = scanner.next();
+            BufferedReader br = new BufferedReader(isReader);
+            while ((line = br.readLine())!=null){
                 if (line.contains("<Valor>")){
                     String aux = line.substring(line.lastIndexOf("<Valor>")+7);
                     preco = aux.substring(0,aux.indexOf("</Valor>"));
@@ -61,20 +66,12 @@ public class HTTPService extends AsyncTask<Void, Void, String> {
                     String erroSTR = aux.substring(0,aux.indexOf("</Erro>"));
                     if (!erroSTR.equals("0")){
                         erro = true;
-                        erroType = true;
                     }
                 }
-                if (erroType){
+                if (erro){
                     if (line.contains("<MsgErro>")){
                         String aux = line.substring(line.lastIndexOf("<MsgErro>")+9);
-                        erroMSG = erroMSG+aux;
-                    }
-                    else if (line.contains("</MsgErro>")){
-                        erroMSG = erroMSG + line.substring(0,line.indexOf("</MsgErro"));
-                        erroType = false;
-                    }
-                    else {
-                        erroMSG = line;
+                        erroMSG = aux.substring(0,aux.indexOf("</MsgErro>"));
                     }
                 }
             }
@@ -84,6 +81,7 @@ public class HTTPService extends AsyncTask<Void, Void, String> {
             else {
                 resposta = preco + "NO_ERROR" + prazo;
             }
+            connection.disconnect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
